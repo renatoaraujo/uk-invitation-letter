@@ -28,7 +28,7 @@ cd UKInvitationLetter
 ### Running the Application
 You can run the application using the following command:
 ```bash
-./gradlew run -DconfigPath=/Users/renato/IdeaProjects/UKInvitationLetter/config.json -DoutputPath=/Users/renato/Desktop/invitation-letter.pdf
+./gradlew run -DconfigPath=/path/to/config.json -DoutputPath=/path/to/invitation-letter.pdf
 ```
 Here,
 - `configPath`: The path to the JSON file that contains configuration details.
