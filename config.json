@@ -1,0 +1,30 @@
+{
+  "startDate": "04/08/2023",
+  "endDate": "04/10/2023",
+  "outputPdfPath": "invitation-letter.pdf",
+  "hostInfo": {
+    "fullName": "Alice Johnson",
+    "jobTitle": "Rockstar Java Engineer",
+    "companyName": "My Amazing Employer",
+    "visaType": "Skilled Worker Visa",
+    "idNumber": "IAMNOWAKOTLINDEVELOPER",
+    "address": "Buckingham Palace, SW1A 1AA, London",
+    "contactNumber": "+44 (0) 789654218"
+  },
+  "guests": [
+    {
+      "fullName": "John Doe",
+      "passportNumber": "KT352238",
+      "dateOfBirth": "23/11/1977"
+    },
+    {
+      "fullName": "Jane Doe",
+      "passportNumber": "KT352239",
+      "dateOfBirth": "23/09/1988"
+    }
+  ],
+  "relationship": "parents",
+  "location": "London",
+  "country": "United Kingdom",
+  "additionalGuests": null
+}
