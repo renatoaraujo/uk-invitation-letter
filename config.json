@@ -4,7 +4,7 @@
   "outputPdfPath": "invitation-letter.pdf",
   "hostInfo": {
     "fullName": "Alice Johnson",
-    "jobTitle": "Rockstar Java Engineer",
+    "jobTitle": "Rockstar Kotlin Engineer",
     "companyName": "My Amazing Employer",
     "visaType": "Skilled Worker Visa",
     "idNumber": "IAMNOWAKOTLINDEVELOPER",

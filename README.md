@@ -28,13 +28,24 @@ cd UKInvitationLetter
 ### Running the Application
 You can run the application using the following command:
 ```bash
-./gradlew run -DconfigPath=/Users/renato/IdeaProjects/UKInvitationLetter/config.json -DoutputPath=/Users/renato/Desktop/invitation-letter.pdf init
+./gradlew run -DconfigPath=/Users/renato/IdeaProjects/UKInvitationLetter/config.json -DoutputPath=/Users/renato/Desktop/invitation-letter.pdf
 ```
 Here,
 - `configPath`: The path to the JSON file that contains configuration details.
 - `outputPath`: The path where the generated PDF will be saved.
 
-You can also specify these system properties in your IDE's run configuration if you are running the program from an IDE like IntelliJ IDEA.
+By default, the program will use the `config.json` located in the root dir and output the PDF file named `invitation-letter.pdf` in the root dir.
+
+Alternatively you can just change the configuration in the `gradle.properties` and execute:
+```bash
+./gradlew run
+```
+
+### Running the tests
+You can run the tests using the following command:
+```bash
+./gradlew test
+```
 
 ### Example JSON Configuration (config.json)
 
