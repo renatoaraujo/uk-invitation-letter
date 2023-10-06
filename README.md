@@ -5,6 +5,17 @@ This is a Kotlin-based application designed to generate invitation letters for v
 It reads a JSON configuration file to gather details about the host, guests, and other relevant information. 
 It then generates an invitation letter in PDF format based on these details.
 
+## Motivation
+
+In recent years, I found myself writing more invitation letters for friends and family visiting me in the UK than 
+actual lines of code. While crafting these letters is tied to the exciting prospect of welcoming a loved one, it's a 
+tedious task, especially when the original template goes missing.
+
+So, I decided to create this small service both as a way to practice Kotlin and to streamline the invitation letter 
+generation for my future guests.
+
+While the PDF design won't win any awards, it has proven to be effective!
+
 ## Features
 
 - Reads host, guest, and visit details from a JSON configuration file.
