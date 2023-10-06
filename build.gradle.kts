@@ -47,9 +47,6 @@ application {
     val resolvedConfigPath = cmdConfigPath ?: defaultConfigPath.replace("\${projectDir}", project.projectDir.absolutePath)
     val resolvedOutputPath = cmdOutputPath ?: defaultOutputPath.replace("\${projectDir}", project.projectDir.absolutePath)
 
-    print(cmdConfigPath)
-    print(cmdOutputPath)
-
     applicationDefaultJvmArgs = listOf(
         "-DconfigPath=$resolvedConfigPath",
         "-DoutputPath=$resolvedOutputPath"
