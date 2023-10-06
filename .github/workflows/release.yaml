@@ -25,28 +25,18 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Check Commit Message and Set Version
-        id: version
-        run: |
-          if [[ "${{ github.event.head_commit.message }}" == major:* ]]; then
-            echo "type=major" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.head_commit.message }}" == minor:* ]]; then
-            echo "type=minor" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.event.head_commit.message }}" == patch:* ]]; then
-            echo "type=patch" >> $GITHUB_OUTPUT
-          else
-            echo "type=skip" >> $GITHUB_OUTPUT
-          fi
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
 
       - name: Bump version and push tag
         if: steps.version.outputs.type != 'skip'
         uses: anothrNick/github-tag-action@1.64.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: ${{ steps.vars.outputs.version_type }}
 
       - name: Create a Release
-        if: steps.version.outputs.type != 'skip'
         uses: elgohr/Github-Release-Action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
