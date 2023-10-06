@@ -41,9 +41,9 @@ jobs:
       - name: Bump version and push tag
         if: steps.version.outputs.type != 'skip'
         uses: anothrNick/github-tag-action@1.64.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: ${{ steps.vars.outputs.version_type }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: ${{ steps.vars.outputs.version_type }}
 
       - name: Create a Release
         if: steps.version.outputs.type != 'skip'
