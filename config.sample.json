@@ -1,7 +1,6 @@
 {
   "startDate": "04/08/2023",
   "endDate": "04/10/2023",
-  "outputPdfPath": "invitation-letter.pdf",
   "hostInfo": {
     "fullName": "Alice Johnson",
     "jobTitle": "Rockstar Kotlin Engineer",

@@ -37,10 +37,21 @@ kotlin {
 
 application {
     mainClass.set("io.ukinvitationletter.MainKt")
+
+    val cmdConfigPath = project.findProperty("configPath") as String?
+    val cmdOutputPath = project.findProperty("outputPath") as String?
+
     val defaultConfigPath = project.findProperty("defaultConfigPath") as String? ?: ""
     val defaultOutputPath = project.findProperty("defaultOutputPath") as String? ?: ""
+
+    val resolvedConfigPath = cmdConfigPath ?: defaultConfigPath.replace("\${projectDir}", project.projectDir.absolutePath)
+    val resolvedOutputPath = cmdOutputPath ?: defaultOutputPath.replace("\${projectDir}", project.projectDir.absolutePath)
+
+    print(cmdConfigPath)
+    print(cmdOutputPath)
+
     applicationDefaultJvmArgs = listOf(
-        "-DconfigPath=${defaultConfigPath.replace("\${projectDir}", project.projectDir.absolutePath)}",
-        "-DoutputPath=${defaultOutputPath.replace("\${projectDir}", project.projectDir.absolutePath)}"
+        "-DconfigPath=$resolvedConfigPath",
+        "-DoutputPath=$resolvedOutputPath"
     )
 }
