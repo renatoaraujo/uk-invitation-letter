@@ -19,6 +19,7 @@ generation for my future guests.
 - Reads host, guest, and visit details from a JSON configuration file.
 - Generates a formal invitation letter based on the provided details.
 - Outputs the generated letter as a PDF file.
+- Check the [example below](#example-of-generated-pdf-image)
 
 ## Requirements
 - JDK 8 or higher
@@ -60,6 +61,10 @@ You can run the tests using the following command:
 ```bash
 ./gradlew test
 ```
+
+## Example of generated PDF (image)
+
+![pdf-sample.png](pdf-sample.png)
 
 ## Credits
 
