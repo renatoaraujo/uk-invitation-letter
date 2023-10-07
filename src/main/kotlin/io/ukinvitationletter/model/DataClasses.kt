@@ -24,5 +24,5 @@ data class InvitationDetails(
     val country: String,
     val startDate: String,
     val endDate: String,
-    val additionalGuests: String? // This is optional, can be null
+    val additionalGuests: String?
 )

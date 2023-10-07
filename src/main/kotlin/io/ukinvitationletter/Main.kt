@@ -15,10 +15,8 @@ fun main() {
         ?: throw IllegalArgumentException("System property 'outputPath' must be set.")
 
     val configReader = FileReader(configPath)
-    val config = gson.fromJson(configReader, InvitationDetails::class.java)
+    val invitationDetails = gson.fromJson(configReader, InvitationDetails::class.java)
 
     val letterGenerator = LetterGenerator()
-    val generatedLetter = letterGenerator.generateLetter(config)
-
-    letterGenerator.generatePdf(generatedLetter, outputPath)
+    letterGenerator.asPDF(invitationDetails, outputPath)
 }

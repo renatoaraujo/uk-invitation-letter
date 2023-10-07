@@ -14,8 +14,6 @@ tedious task, especially when the original template goes missing.
 So, I decided to create this small service both as a way to practice Kotlin and to streamline the invitation letter 
 generation for my future guests.
 
-While the PDF design won't win any awards, it has proven to be effective!
-
 ## Features
 
 - Reads host, guest, and visit details from a JSON configuration file.

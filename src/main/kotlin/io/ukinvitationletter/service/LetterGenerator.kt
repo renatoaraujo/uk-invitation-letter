@@ -1,65 +1,81 @@
 package io.ukinvitationletter.service
 
+import com.itextpdf.kernel.geom.PageSize
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
-import io.ukinvitationletter.model.GuestInfo
-import io.ukinvitationletter.model.HostInfo
+import com.itextpdf.layout.element.Text
 import io.ukinvitationletter.model.InvitationDetails
 
 class LetterGenerator {
-
-    fun generateLetter(details: InvitationDetails): String {
-        val hostInfo = formatHostInfo(details.hostInfo)
-        val guestInfo = formatGuestInfo(details.guests)
-
-        return """
-            |Invitation Letter for Visiting ${details.location}
-            |
-            |To Whom It May Concern,
-            |
-            |I, ${details.hostInfo.fullName}, am writing this formal invitation letter to request the pleasure of a visit from my ${details.relationship}, ${guestInfo}, to ${details.location}, in ${details.country}.
-            |
-            |The visit is scheduled from ${details.startDate} to ${details.endDate}. During this period, ${guestInfo} will be staying with me at my residence${details.additionalGuests?.let { ", accompanied by $it" } ?: ""}.
-            |
-            |$hostInfo
-            |
-            |Should you require additional information or clarification, please do not hesitate to get in touch with me at ${details.hostInfo.contactNumber}.
-            |
-            |Yours sincerely,
-            |${details.hostInfo.fullName}
-            |${details.hostInfo.contactNumber}
-        """.trimMargin()
-    }
-
-    fun generatePdf(letter: String, outputPath: String) {
+    fun asPDF(details: InvitationDetails, outputPath: String) {
         val pdfWriter = PdfWriter(outputPath)
         val pdfDocument = PdfDocument(pdfWriter)
+        pdfDocument.defaultPageSize = PageSize.A4
+
         val document = Document(pdfDocument)
 
-        letter.lines().forEach { line ->
-            document.add(Paragraph(line))
+        val title = Paragraph("Invitation Letter for Visiting ${details.location}, ${details.country}")
+        title.setBold()
+        title.setFontSize(20.0f)
+        document.add(title)
+
+        val space = Paragraph("\n")
+        document.add(space)
+
+        document.add(Paragraph("Dear Sir / Madam,"))
+
+        val intro = Paragraph()
+
+        intro.add("I, ${details.hostInfo.fullName}, am writing this formal invitation letter to invite my ${details.relationship}, ")
+
+        details.guests.forEachIndexed { index, guest ->
+            if (index > 0 && index == details.guests.size - 1) {
+                intro.add(" and ")
+            } else if (index > 0) {
+                intro.add(", ")
+            }
+            val guestName = Text(guest.fullName).setBold()
+            intro.add(guestName)
         }
 
+        intro.add(", to ${details.location}, in ${details.country}. ")
+        intro.add("The visit is scheduled from ${details.startDate} to ${details.endDate}. During this period, " +
+                "${if (details.guests.size > 1) "they" else "my guest"} will be staying with me at my " +
+                "residence${details.additionalGuests?.let { ", accompanied by $it" } ?: ""}.")
+        document.add(intro)
+
+        document.add(Paragraph("Their personal details are as follows:").setMarginBottom(20f))
+
+        details.guests.forEach { guest ->
+            val guestName = Paragraph().add(guest.fullName).setBold()
+            document.add(guestName)
+
+            val passport = Paragraph("Passport number: ${guest.passportNumber}")
+            document.add(passport)
+
+            val dateOfBirth = Paragraph("Date of birth: ${guest.dateOfBirth}").setMarginBottom(20f)
+            document.add(dateOfBirth)
+        }
+
+        val hostParagraph = Paragraph()
+        hostParagraph.add(
+            "I currently hold a ${details.hostInfo.visaType}, working as a " +
+                    "${details.hostInfo.jobTitle} at ${details.hostInfo.companyName}. My identification number is " +
+                    "${details.hostInfo.idNumber}. I am providing accommodation for my ${details.relationship} during " +
+                    "their stay at my address ${details.hostInfo.address}."
+        )
+        document.add(hostParagraph)
+
+        document.add(
+            Paragraph("If further information is required, please do not hesitate to contact me.").setMarginBottom(
+                30f
+            )
+        )
+        document.add(Paragraph("Yours sincerely,"))
+        document.add(Paragraph(details.hostInfo.fullName).setBold())
+        document.add(Paragraph("Contact number: ${details.hostInfo.contactNumber}"))
         document.close()
-    }
-
-    private fun formatGuestInfo(guests: List<GuestInfo>): String {
-        return guests.joinToString(separator = "\n") { guest ->
-            """
-            |${guest.fullName}
-            |- Passport number: ${guest.passportNumber}
-            |- Date of Birth: ${guest.dateOfBirth}
-            """.trimMargin()
-        }
-    }
-
-    private fun formatHostInfo(host: HostInfo): String {
-        return """
-        |Details of the Host:
-        |
-        |I am currently employed as a ${host.jobTitle} at ${host.companyName} and am a holder of a ${host.visaType}. My identification number is ${host.idNumber}. I will be providing accommodation for the guests at my privately rented residence located at ${host.address}.
-        """.trimMargin()
     }
 }
