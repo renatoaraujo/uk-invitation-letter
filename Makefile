@@ -1,5 +1,8 @@
 .PHONY: build letter
 
+test:
+	./gradlew test
+
 build:
 	./gradlew build
 
