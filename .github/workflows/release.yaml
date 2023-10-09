@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - run: echo "version='${{ github.ref_name }}'" >> gradle.properties
+      - run: echo "version=${{ github.ref_name }}" > gradle.properties
 
       - name: Set up JDK
         uses: actions/setup-java@v3
