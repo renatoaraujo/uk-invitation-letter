@@ -2,15 +2,19 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
+
+permissions:
+  contents: write
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -18,37 +22,15 @@ jobs:
           distribution: 'oracle'
           java-version: '21'
 
-      - name: Run Tests
-        run: ./gradlew test --no-daemon
+      - run: echo "version='${{ env.GITHUB_REF_NAME }}'" >> gradle.properties
 
-  release:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
-          fetch-depth: '0'
-
-      - name: Bump version and push tag
-        id: version
-        uses: anothrNick/github-tag-action@1.64.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-          MAJOR_STRING_TOKEN: "major:"
-          MINOR_STRING_TOKEN: "minor:"
-          PATCH_STRING_TOKEN: "patch:"
-
-      - name: Set project version for Gradle
-        run: echo "version='${{ steps.version.outputs.new_tag }}'" >> gradle.properties
-
-      - name: Build fat JAR
+      - name: Build Jar
         run: ./gradlew shadowJar --no-daemon
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          automatic_release_tag: ${{ steps.version.outputs.new_tag }}
+          automatic_release_tag: ${{ env.GITHUB_REF_NAME }}
           prerelease: false
           files: |
-            build/libs/uk-invitation-letter-${{ steps.version.outputs.new_tag }}.jar
+            build/libs/uk-invitation-letter-${{ env.GITHUB_REF_NAME }}.jar
