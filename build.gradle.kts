@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "io.ukinvitationletter"
@@ -44,11 +45,21 @@ application {
     val defaultConfigPath = project.findProperty("defaultConfigPath") as String? ?: ""
     val defaultOutputPath = project.findProperty("defaultOutputPath") as String? ?: ""
 
-    val resolvedConfigPath = cmdConfigPath ?: defaultConfigPath.replace("\${projectDir}", project.projectDir.absolutePath)
-    val resolvedOutputPath = cmdOutputPath ?: defaultOutputPath.replace("\${projectDir}", project.projectDir.absolutePath)
+    val resolvedConfigPath = cmdConfigPath ?: defaultConfigPath.replace("\\${projectDir}", project.projectDir.absolutePath)
+    val resolvedOutputPath = cmdOutputPath ?: defaultOutputPath.replace("\\${projectDir}", project.projectDir.absolutePath)
 
     applicationDefaultJvmArgs = listOf(
         "-DconfigPath=$resolvedConfigPath",
         "-DoutputPath=$resolvedOutputPath"
     )
 }
+
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>().configureEach {
+    archiveBaseName.set("uk-invitation-letter")
+    archiveVersion.set(version.toString())
+    archiveClassifier.set("")
+    manifest {
+        attributes["Main-Class"] = "io.ukinvitationletter.MainKt"
+    }
+}
+

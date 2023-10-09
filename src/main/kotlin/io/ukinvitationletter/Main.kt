@@ -5,14 +5,23 @@ import io.ukinvitationletter.model.InvitationDetails
 import io.ukinvitationletter.service.LetterGenerator
 import java.io.FileReader
 
-fun main() {
+fun main(args: Array<String>) {
     val gson = Gson()
 
-    val configPath = System.getProperty("configPath")
-        ?: throw IllegalArgumentException("System property 'configPath' must be set.")
+    var configPath: String? = null
+    var outputPath: String? = null
 
-    val outputPath = System.getProperty("outputPath")
-        ?: throw IllegalArgumentException("System property 'outputPath' must be set.")
+    // Parse command-line arguments
+    for (i in args.indices) {
+        when (args[i]) {
+            "-c" -> configPath = args.getOrNull(i + 1)
+            "-o" -> outputPath = args.getOrNull(i + 1)
+        }
+    }
+
+    if (configPath == null || outputPath == null) {
+        throw IllegalArgumentException("Both -c (configPath) and -o (outputPath) must be provided.")
+    }
 
     val configReader = FileReader(configPath)
     val invitationDetails = gson.fromJson(configReader, InvitationDetails::class.java)

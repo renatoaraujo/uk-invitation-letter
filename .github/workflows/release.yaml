@@ -39,9 +39,16 @@ jobs:
           MINOR_STRING_TOKEN: "minor:"
           PATCH_STRING_TOKEN: "patch:"
 
-      - name: Create Release
-        id: release
-        uses: ncipollo/release-action@v1
+      - name: Set project version for Gradle
+        run: echo "version='${{ steps.version.outputs.new_tag }}'" >> gradle.properties
+
+      - name: Build fat JAR
+        run: ./gradlew shadowJar --no-daemon
+
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
-          tag: ${{ steps.version.outputs.new_tag }}
-          token: ${{ secrets.RELEASE_TOKEN }}
+          repo_token: "${{ secrets.RELEASE_TOKEN }}"
+          automatic_release_tag: ${{ steps.version.outputs.new_tag }}
+          prerelease: false
+          files: |
+            build/libs/uk-invitation-letter-${{ steps.version.outputs.new_tag }}.jar
