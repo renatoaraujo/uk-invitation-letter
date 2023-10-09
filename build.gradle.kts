@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.ukinvitationletter"
-version = "1.0-SNAPSHOT"
+version = project.property("version").toString()
 
 repositories {
     mavenCentral()
