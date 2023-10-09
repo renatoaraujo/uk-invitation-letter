@@ -16,16 +16,20 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - run: echo "version=${{ github.ref_name }}" > gradle.properties
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'oracle'
           java-version: '21'
 
+      - name: Updates tag version
+        run: echo "version=${{ github.ref_name }}" > gradle.properties
+
       - name: Build Jar
         run: ./gradlew shadowJar --no-daemon
+
+      - name: Generate Checksum
+        run: sha256sum build/libs/uk-invitation-letter-${{ github.ref_name }}.jar > checksum.txt
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -34,3 +38,4 @@ jobs:
           prerelease: false
           files: |
             build/libs/uk-invitation-letter-${{ github.ref_name }}.jar
+            checksum.txt
