@@ -1,75 +1,83 @@
-UK Invitation Letter Generator
-===
+# UK Invitation Letter Generator
 
-This is a Kotlin-based application designed to generate invitation letters for visitors to the UK. 
-It reads a JSON configuration file to gather details about the host, guests, and other relevant information. 
-It then generates an invitation letter in PDF format based on these details.
+This Kotlin application simplifies the process of creating invitation letters for UK visitors. It utilizes a JSON configuration file to compile necessary details about the host, guests, and visit specifics, producing a formal invitation letter in PDF format.
 
-## Motivation
+## Why This Project Exists
 
-In recent years, I found myself writing more invitation letters for friends and family visiting me in the UK than 
-actual lines of code. While crafting these letters is tied to the exciting prospect of welcoming a loved one, it's a 
-tedious task, especially when the original template goes missing.
+Creating personalized invitation letters for visiting friends and family can be time-consuming. This project was born from a personal need to streamline the process, combining a practical solution with an opportunity to refine my Kotlin skills.
 
-So, I decided to create this small service both as a way to practice Kotlin and to streamline the invitation letter 
-generation for my future guests.
+## Key Features
 
-## Features
+- Parses host, guest, and visitation details from a specified JSON file.
+- Crafts a personalized invitation letter from the parsed details.
+- Outputs the letter as a PDF file, ready for printing or emailing.
+- See the [example section below](#example-of-generated-pdf-image) for a visual preview.
 
-- Reads host, guest, and visit details from a JSON configuration file.
-- Generates a formal invitation letter based on the provided details.
-- Outputs the generated letter as a PDF file.
-- Check the [example below](#example-of-generated-pdf-image)
+## Getting Started
 
-## Requirements
-- JDK 8 or higher
-- Gradle
-- Make (optional, for simplified command execution)
+### Prerequisites
 
-## Usage
-### Configuration
-Refer to the provided `config.sample.json` for an overview of the configuration options.
+- Java Development Kit (JDK) version 8 or newer.
+- Gradle for building and running the application.
+- Make (optional) simplifies the execution process through predefined commands.
 
-### Using Make for Simplified Execution (recommended)
-With the provided `Makefile`, you can easily build and generate the letter using:
-```bash
-make letter /path/to/my-custom-config.json /path/to/invitation-letter.pdf
-```
+### Setup and Execution
 
-### Using Gradle
-Build the with Gradle
+#### Configuring Your Invitation
+
+Start by modifying `config.sample.json` to include your specific invitation details.
+
+#### Building the Project
+
+To compile the project, run:
+
 ```bash
 ./gradlew build
 ```
-Run the application using the following command:
+
+#### Generating Your Letter
+
+**Using Make (Recommended):**
+
 ```bash
-./gradlew run -PconfigPath=/path/to/config.sample.json -PoutputPath=/path/to/invitation-letter.pdf
+make letter CONFIG_PATH=/path/to/your-config.json OUTPUT_PATH=/path/to/output/invitation-letter.pdf
 ```
-Here,
-- `configPath`: The path to the JSON file that contains configuration details.
-- `outputPath`: The path where the generated PDF will be saved.
 
-By default, the program will use the [`config.sample.json`](config.sample.json) located in the root dir and output the PDF file named `invitation-letter.pdf` in the root dir.
+**Using Gradle:**
 
-Alternatively you can just change the configuration in the `gradle.properties` and execute:
+To execute the application with Gradle, use:
+
+```bash
+./gradlew run --args="-c './config.sample.json' -o '.'"
+```
+
+- `configPath`: Path to your JSON configuration file.
+- `outputPath`: Destination for the generated PDF.
+
+Alternatively, update the `gradle.properties` with your configuration and outputPath, then run:
+
 ```bash
 ./gradlew run
 ```
 
-### Running the tests
-You can run the tests using the following command:
+#### Running Tests
+
+Execute the test suite with:
+
 ```bash
 ./gradlew test
 ```
 
-## Example of generated PDF (image)
+## Example of Generated PDF (image)
 
-![pdf-sample.png](pdf-sample.png)
+Here's a preview of what the generated PDF looks like:
 
-## Credits
+![Example PDF Output](pdf-sample.png)
 
-* [Renato Araujo](https://www.linkedin.com/in/renatoraraujo/)
+## Acknowledgments
+
+* Renato Araujo - [LinkedIn Profile](https://www.linkedin.com/in/renatoraraujo/)
 
 ## License
 
-The MIT License (MIT) - see [`LICENSE`](LICENSE) for more details
+This project is released under the MIT License - see the [LICENSE](LICENSE) file for details.
